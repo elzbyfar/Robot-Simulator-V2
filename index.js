@@ -5,6 +5,7 @@ let movesList = document.getElementById("moves-container")
 document.addEventListener("DOMContentLoaded", function(){
   createGrid()
   renderBot(currentPosition)
+  let timer;
   
   document.addEventListener("keydown", function(event){
     if (event.keyCode === 37) {
@@ -12,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function(){
       li.innerText = "left"
       movesList.appendChild(li)
     }
-    
+
     if (event.keyCode === 38) {
       let li = document.createElement('li')
       li.innerText = "up"
@@ -37,18 +38,20 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   })
 
-  document.addEventListener('click', function(event){
-    let allMoves = Array.from(movesList.childNodes)
-
+  moveButton.addEventListener('click', function(event){
     function makeMoves() {
-      move(allMoves[0].innerText);
-      allMoves.shift().remove();
+      if (document.querySelector('li')){
+        let print = document.querySelector('li')
+        move(print.innerText)
+        print.remove()
+      }
     }
-
-    if (allMoves.length > 0) {
-      window.setInterval(makeMoves, 500)
-    } else {
-      clearInterval(makeMoves)
-    }
+    
+    if (document.querySelector('li')) {
+      timer = setInterval(makeMoves, 500)
+    } 
+    // if (!document.querySelector('li')){
+    //   clearInterval(timer)
+    // }
   })
 })
